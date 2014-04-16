@@ -14,4 +14,12 @@ config.facebook = {
 	redirect_uri: 	config.rootUrl + 'loggedintofacebook'
 };
 
+config.twitter = {
+	consumer_key: 		process.env.TWITTER_APPID,
+	consumer_secret: 	process.env.TWITTER_APPSECRET,
+	access_token: 		process.env.TWITTER_ACCESSTOKEN,
+	access_token_secret: 	process.env.TWITTER_ACCESSSECRET,
+	redirect_uri: 	config.rootUrl + 'loggedintotwitter'
+}
+
 module.exports = config;

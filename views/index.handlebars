@@ -21,7 +21,12 @@
       <div class="container">
       	<h1>Lost and Found UCSD</h1>
         {{#if facebook_auth}}
-        <p>Facebook login successful!</p>
+          {{#if twitter_auth}}
+            <p>Twitter login successful!</p>
+          {{else}}
+            <p>Facebook login successful!</p>
+            <p><a href="/auth/twitter">Log into Twitter</p>
+          {{/if}}
         {{else}}
         <p><a href="/auth/facebook">Log into Facebook</a></p>
         {{/if}}

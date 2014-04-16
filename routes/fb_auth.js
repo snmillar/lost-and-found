@@ -1,7 +1,7 @@
 var config = require('../config');
 var graph = require('fbgraph');
 
-exports.view = function(req, res) {
+exports.login = function(req, res) {
 	
 	// we don't have a code yet
   // so we'll redirect to the oauth dialog
@@ -30,4 +30,8 @@ exports.view = function(req, res) {
   }, function (err, facebookRes) {
     res.redirect('/loggedintofacebook');
   });
+}
+
+exports.view = function(req, res) {
+	res.render('index', {facebook_auth: true, twitter_auth: false});
 }
