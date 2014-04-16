@@ -2,7 +2,7 @@
 
 <html>
 <head>
-	<title>Boilerplate</title>	
+	<title>Lost and Found UCSD</title>	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -19,7 +19,12 @@
 
 <body>
       <div class="container">
-      	<h1>This is a boilerplate</h1>
+      	<h1>Lost and Found UCSD</h1>
+        {{#if facebook_auth}}
+        <p>Facebook login successful!</p>
+        {{else}}
+        <p><a href="/auth/facebook">Log into Facebook</a></p>
+        {{/if}}
     </div>
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
