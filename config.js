@@ -11,7 +11,7 @@ config.facebook = {
 	client_secret: 		process.env.FACEBOOK_APPSECRET,
 	appNamespace: 	process.env.FACEBOOK_APPNAMESPACE,
 	scope: 			'email, user_about_me, user_education_history, user_groups, user_status, user_likes',
-	redirect_uri: 	process.env.FACEBOOK_REDIRECTURI || config.rootUrl + 'loggedintofacebook'
+	redirect_uri: 	config.rootUrl + 'loggedintofacebook'
 };
 
 module.exports = config;
