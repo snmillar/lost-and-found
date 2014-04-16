@@ -4,7 +4,7 @@ dotenv.load();
 var config = { };
 
 //should end in /
-config.rootUrl = process.env.ROOT_URL	|| 'http://localhost:3000/';
+config.rootUrl = process.env.ROOT_URL	|| 'http://lostandfounducsd.herokuapp.com/';
 
 config.facebook = {
 	client_id: 			process.env.FACEBOOK_APPID,
