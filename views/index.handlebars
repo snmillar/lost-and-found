@@ -21,14 +21,14 @@
       <div class="container">
       	<h1>Lost and Found UCSD</h1>
         {{#if facebook_auth}}
-          {{#if twitter_auth}}
-            <p>Twitter login successful!</p>
-          {{else}}
-            <p>Facebook login successful!</p>
-            <p><a href="/auth/twitter">Log into Twitter</p>
-          {{/if}}
+          <p>Facebook login successful!</p>
         {{else}}
         <p><a href="/auth/facebook">Log into Facebook</a></p>
+        {{/if}}
+        {{#if twitter_auth}}
+          <p>Twitter login successful!</p>
+        {{else}}
+          <p><a href="/auth/twitter">Log into Twitter</p>
         {{/if}}
     </div>
     <script src="https://code.jquery.com/jquery.js"></script>

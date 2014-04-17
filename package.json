@@ -12,6 +12,7 @@
     "mongoose": "*",
     "passport": "*",
     "passport-facebook": "*",
+    "passport-facebook-canvas": "*",
     "passport-twitter": "*",
     "dotenv": "*",
     "fbgraph": "*",

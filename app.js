@@ -17,8 +17,16 @@ config.twitter = {
 	access_token_secret: 	process.env.TWITTER_ACCESSSECRET,
 	redirect_uri: 	config.rootUrl + 'loggedintotwitter'
 }
+config.facebook = {
+	client_id: 			process.env.FACEBOOK_APPID,
+	client_secret: 		process.env.FACEBOOK_APPSECRET,
+	appNamespace: 	process.env.FACEBOOK_APPNAMESPACE,
+	scope: 			'email, user_about_me, user_education_history, user_groups, user_status, user_likes',
+	redirect_uri: 	config.rootUrl + 'loggedintofacebook'
+};
 
 var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook-canvas');
 
 passport.serializeUser(function(user, done){
 	done(null, user);
@@ -37,14 +45,23 @@ passport.use(new TwitterStrategy({
   	});
   }
 ));
+passport.use(new FacebookStrategy({
+	clientID: config.facebook.client_id,
+	clientSecret: config.facebook.client_secret,
+	callbackURL: config.facebook.redirect_uri
+  },
+  function(accessToken, refreshToken, profile, done) {
+  	process.nextTick(function(){
+  		return done(null, profile);
+  	});
+  }
+));
 
 var app = express();
 
 
 //route files to load
 var index = require('./routes/index');
-var fb_auth = require('./routes/fb_auth');
-var twit_auth = require('./routes/twit_auth');
 
 //database setup - uncomment to set up your database
 //var mongoose = require('mongoose');
@@ -63,10 +80,29 @@ app.use(passport.initialize());
 
 //routes
 app.get('/', index.view);
-app.get('/auth/facebook', fb_auth.login);
-app.get('/loggedintofacebook', fb_auth.view);
-app.get('/auth/twitter', passport.authenticate('twitter'), function(req,res){});
-app.get('/loggedintotwitter', passport.authenticate('twitter', {failureRedirect: '/loggedintofacebook' }), twit_auth.view);
+app.get('/auth/facebook', passport.authenticate('facebook-canvas'));
+app.get('/auth/facebook/callback', passport.authenticate('facebook-canvas', { failureRedirect: '/error'}), function(req,res){
+	req.session.facebook = true;
+	res.redirect('/');
+});
+app.get('/auth/facebook/canvas', passport.authenticate('facebook-canvas', { failureRedirect: '/auth/facebook/canvas/autologin'}), function(req,res){
+	req.session.facebook = true;
+	res.redirect('/');
+});
+app.get('/auth/facebook/canvas/autologin', function(req,res){
+	res.send('<!DOCTYPE html>' +
+				'<body>' + 
+					'<script type="text/javascript">' + 
+						'top.location.href = "/auth/facebook";' +
+					'</script>' +
+				'</body>' +
+			'</html>' );
+});
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/error' }), function(req,res){
+	req.session.twitter = true;
+	res.redirect('/');
+});
 
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
