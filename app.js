@@ -15,14 +15,14 @@ config.twitter = {
 	consumer_secret: 	process.env.TWITTER_APPSECRET,
 	access_token: 		process.env.TWITTER_ACCESSTOKEN,
 	access_token_secret: 	process.env.TWITTER_ACCESSSECRET,
-	redirect_uri: 	config.rootUrl + 'loggedintotwitter'
+	redirect_uri: 	config.rootUrl + 'auth/twitter/callback'
 }
 config.facebook = {
 	client_id: 			process.env.FACEBOOK_APPID,
 	client_secret: 		process.env.FACEBOOK_APPSECRET,
 	appNamespace: 	process.env.FACEBOOK_APPNAMESPACE,
 	scope: 			'email, user_about_me, user_education_history, user_groups, user_status, user_likes',
-	redirect_uri: 	config.rootUrl + 'loggedintofacebook'
+	redirect_uri: 	config.rootUrl + 'auth/facebook/callback'
 };
 
 var TwitterStrategy = require('passport-twitter').Strategy;
