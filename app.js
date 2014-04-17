@@ -4,6 +4,7 @@ var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var passport = require('passport');
+var Twit = require('twit');
 
 var dotenv = require('dotenv');
 dotenv.load();
@@ -13,14 +14,11 @@ config.rootUrl = process.env.ROOT_URL	|| 'http://lostandfounducsd.herokuapp.com/
 config.twitter = {
 	consumer_key: 		process.env.TWITTER_APPID,
 	consumer_secret: 	process.env.TWITTER_APPSECRET,
-	access_token: 		process.env.TWITTER_ACCESSTOKEN,
-	access_token_secret: 	process.env.TWITTER_ACCESSSECRET,
 	redirect_uri: 	config.rootUrl + 'auth/twitter/callback'
 }
 config.facebook = {
 	client_id: 			process.env.FACEBOOK_APPID,
 	client_secret: 		process.env.FACEBOOK_APPSECRET,
-	appNamespace: 	process.env.FACEBOOK_APPNAMESPACE,
 	scope: 			'email, user_about_me, user_education_history, user_groups, user_status, user_likes',
 	redirect_uri: 	config.rootUrl + 'auth/facebook/callback'
 };
@@ -34,6 +32,7 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(obj, done){
 	done(null, obj);
 });
+var twitconfig = { };
 passport.use(new TwitterStrategy({
 	consumerKey: config.twitter.consumer_key,
 	consumerSecret: config.twitter.consumer_secret,
@@ -41,10 +40,17 @@ passport.use(new TwitterStrategy({
   },
   function(token, tokenSecret, profile, done) {
   	process.nextTick(function(){
+  		twitconfig = {
+  			consumer_key: config.twitter.consumer_key,
+  			consumer_secret: config.twitter.consumer_secret,
+  			access_token: token,
+  			access_token_secret: tokenSecret
+  		};
   		return done(null, profile);
   	});
   }
 ));
+var fbconfig = { };
 passport.use(new FacebookStrategy({
 	clientID: config.facebook.client_id,
 	clientSecret: config.facebook.client_secret,
@@ -52,6 +58,9 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
   	process.nextTick(function(){
+  		fbconfig = {
+  			access_token: accessToken
+  		}
   		return done(null, profile);
   	});
   }
@@ -62,6 +71,8 @@ var app = express();
 
 //route files to load
 var index = require('./routes/index');
+var myitems = require('./routes/myitems');
+var profile = require('./routes/profile');
 
 //database setup - uncomment to set up your database
 //var mongoose = require('mongoose');
@@ -80,16 +91,22 @@ app.use(passport.initialize());
 
 //routes
 app.get('/', index.view);
+app.get('/myitems', myitems.view);
+app.get('/profile', profile.view);
 app.get('/auth/facebook', passport.authenticate('facebook-canvas'));
 app.get('/auth/facebook/callback', passport.authenticate('facebook-canvas', { failureRedirect: '/error'}), function(req,res){
 	req.session.facebook = true;
+	req.session.fbconfig = fbconfig;
 	res.redirect('/');
 });
 app.get('/auth/facebook/canvas', passport.authenticate('facebook-canvas', { failureRedirect: '/auth/facebook/canvas/autologin'}), function(req,res){
 	req.session.facebook = true;
+	req.session.fbconfig = fbconfig;
 	res.redirect('/');
 });
 app.get('/auth/facebook/canvas/autologin', function(req,res){
+	req.session.facebook = true;
+	req.session.fbconfig = fbconfig;
 	res.send('<!DOCTYPE html>' +
 				'<body>' + 
 					'<script type="text/javascript">' + 
@@ -101,6 +118,7 @@ app.get('/auth/facebook/canvas/autologin', function(req,res){
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/error' }), function(req,res){
 	req.session.twitter = true;
+	req.session.twitconfig = twitconfig;
 	res.redirect('/');
 });
 

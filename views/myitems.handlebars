@@ -33,22 +33,24 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/myitems">My Items</a></li>
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/myitems">My Items</a></li>
             <li><a href="/profile">Profile</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+    <h3>Your lost and found items on Facebook:</h3>
     {{#if facebook_auth}}
-      <p>Facebook login successful!</p>
+      <p>Here are the items!</p>
     {{else}}
-      <p><a href="/auth/facebook">Log into Facebook</a></p>
+      <p><a href="/auth/facebook">Log into Facebook</a> to see the items.</p>
     {{/if}}
+    <h3>Your lost and found items on Twitter:</h3>
     {{#if twitter_auth}}
-      <p>Twitter login successful!</p>
+      <p>Here are the items!</p>
     {{else}}
-      <p><a href="/auth/twitter">Log into Twitter</a></p>
+      <p><a href="/auth/twitter">Log into Twitter</a> to see the items.</p>
     {{/if}}
   </div>
   <script src="https://code.jquery.com/jquery.js"></script>
