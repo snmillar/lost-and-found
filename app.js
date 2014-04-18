@@ -10,7 +10,7 @@ var dotenv = require('dotenv');
 dotenv.load();
 var config = { };
 //should end in /
-config.rootUrl = process.env.ROOT_URL	|| 'http://lostandfounducsd.herokuapp.com/';
+config.rootUrl = process.env.ROOT_URL	|| 'http://localhost:3000/';
 config.twitter = {
 	consumer_key: 		process.env.TWITTER_APPID,
 	consumer_secret: 	process.env.TWITTER_APPSECRET,
@@ -24,7 +24,7 @@ config.facebook = {
 };
 
 var TwitterStrategy = require('passport-twitter').Strategy;
-var FacebookStrategy = require('passport-facebook-canvas');
+var FacebookStrategy = require('passport-facebook-canvas').Strategy;
 
 passport.serializeUser(function(user, done){
 	done(null, user);

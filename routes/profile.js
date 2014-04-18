@@ -9,15 +9,16 @@ exports.view = function(req, res) {
 		graph.setAccessToken(req.session.fbconfig.access_token);
 		console.log('getting the info');
 		graph.get("me", function(err, gres){
-			console.log(gres);
+			data.fullname = gres.name;
+			console.log(gres.name);
+			//console.log(gres);
+			console.log(data);
+			res.render('profile', data);
 		});
-
-		console.log('getting specific info');
-		var qres = graph.get("me?fields=name");
-		data.fullname = qres.name;
+		
 	}else{
 		console.log('req.session.fbconfig is undefined');
+		res.render('profile', data);
 	}
-
-	res.render('profile', data);
+	
 }
