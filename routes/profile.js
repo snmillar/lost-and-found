@@ -5,14 +5,13 @@ exports.view = function(req, res) {
 	data.facebook_auth = req.session.facebook;
 	data.twitter_auth = req.session.twitter;
 	if(typeof req.session.fbconfig != 'undefined'){
-		console.log('setting the access token');
 		graph.setAccessToken(req.session.fbconfig.access_token);
-		console.log('getting the info');
-		graph.get("me", function(err, gres){
+		graph.get("me?fields=picture,name,education,email", function(err, gres){
+			data.picture = gres.picture.data.url;
 			data.fullname = gres.name;
-			console.log(gres.name);
-			//console.log(gres);
-			console.log(data);
+			data.education = gres.education;
+			data.email = gres.email;
+			console.log(gres);
 			res.render('profile', data);
 		});
 		
