@@ -43,6 +43,7 @@
     <h3>Your basic Facebook profile:</h3>
     {{#if facebook_auth}}
       <p>Here is your info you let me have!</p>
+      <p>Name: {{fullname}}</p>
     {{else}}
       <p><a href="/auth/facebook">Log into Facebook</a> to see your profile.</p>
     {{/if}}

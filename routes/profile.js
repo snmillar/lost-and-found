@@ -14,6 +14,7 @@ exports.view = function(req, res) {
 
 		console.log('getting specific info');
 		var qres = graph.get("me?fields=name");
+		data.fullname = qres.name;
 	}else{
 		console.log('req.session.fbconfig is undefined');
 	}
