@@ -1,5 +1,4 @@
-Boilerplate
+Assignment 1
 ===========
 
-Boilerplate for COGS 121. This should provide a basic set up for node.js. 
-Make sure you run npm install before using
+Sara Millar - A09450110 - website is at http://lostandfounducsd.herokuapp.com
