@@ -42,7 +42,9 @@
     </nav>
     <h3>Your lost and found items on Facebook:</h3>
     {{#if facebook_auth}}
-      <p>Here are the items!</p>
+      {{#each messages}}
+        <p>{{message}}</p>
+      {{/each}}
     {{else}}
       <p><a href="/auth/facebook">Log into Facebook</a> to see the items.</p>
     {{/if}}

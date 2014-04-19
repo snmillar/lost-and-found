@@ -51,8 +51,15 @@
       <p><a href="/auth/twitter">Log into Twitter</a></p>
     {{/if}}
 
+    <h3>About this page:</h3>
+    <p>Post a tweet or status update with the hashtag #lostandfounducsd or post to facebook on the Lost and Found UCSD page. Your items that you have lost or found will appear under your items. You can see all lost or found items on this page in the future.
+
     {{#if facebook_auth}}
-      <p>Hey! You should go like a page you haven't liked yet!</p>
+      {{#if liked_page}}
+        <p>Good job! You already liked the <a href="https://www.facebook.com/lostandfounducsd">Lost and Found UCSD page</a>!</p>
+      {{else}}
+        <p>Hey! You should go like the <a href="https://www.facebook.com/lostandfounducsd">Lost and Found UCSD page</a>!</p>
+      {{/if}}
     {{/if}}
   </div>
   <script src="https://code.jquery.com/jquery.js"></script>

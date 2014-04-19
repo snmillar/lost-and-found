@@ -19,12 +19,11 @@ config.twitter = {
 config.facebook = {
 	client_id: 			process.env.FACEBOOK_APPID,
 	client_secret: 		process.env.FACEBOOK_APPSECRET,
-	scope: 			'email, user_about_me, user_education_history, user_groups, user_status, user_likes',
 	redirect_uri: 	config.rootUrl + 'auth/facebook/callback'
 };
 
 var TwitterStrategy = require('passport-twitter').Strategy;
-var FacebookStrategy = require('passport-facebook-canvas').Strategy;
+var FacebookStrategy = require('passport-facebook-canvas');
 
 passport.serializeUser(function(user, done){
 	done(null, user);
@@ -93,7 +92,7 @@ app.use(passport.initialize());
 app.get('/', index.view);
 app.get('/myitems', myitems.view);
 app.get('/profile', profile.view);
-app.get('/auth/facebook', passport.authenticate('facebook-canvas'));
+app.get('/auth/facebook', passport.authenticate('facebook-canvas', { scope: ['email', 'user_about_me', 'user_education_history', 'user_likes', 'read_stream']}));
 app.get('/auth/facebook/callback', passport.authenticate('facebook-canvas', { failureRedirect: '/error'}), function(req,res){
 	req.session.facebook = true;
 	req.session.fbconfig = fbconfig;
