@@ -50,7 +50,9 @@
     {{/if}}
     <h3>Your lost and found items on Twitter:</h3>
     {{#if twitter_auth}}
-      <p>Here are the items!</p>
+      {{#each tweets}}
+      <p>{{text}}</p>
+      {{/each}}
     {{else}}
       <p><a href="/auth/twitter">Log into Twitter</a> to see the items.</p>
     {{/if}}

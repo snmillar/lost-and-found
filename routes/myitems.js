@@ -23,8 +23,9 @@ exports.view = function(req, res) {
 				access_token: req.session.twitconfig.access_token,
 				access_token_secret: req.session.twitconfig.access_token_secret
 			});
-			T.get('search/tweets', { q: 'lostandfounducsd', count: 10}, function(err, reply){
+			T.get('statuses/user_timeline', function(err, reply){
 				console.log(reply);
+				data.tweets = reply;
 				res.render('myitems', data);
 			});
 		}else{
